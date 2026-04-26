@@ -1,0 +1,50 @@
+package com.odan;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.odan.config.AppModule;
+import com.odan.config.Configuration;
+import com.odan.exception.ApiException;
+import com.odan.exception.ErrorResponse;
+import com.odan.routing.RouteRegistry;
+import io.javalin.Javalin;
+import io.javalin.community.ssl.SslPlugin;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Injector injector = Guice.createInjector(new AppModule());
+
+        var configuration = injector.getInstance(Configuration.class);
+
+        var sslPlugin = new SslPlugin(config -> {
+            config.insecurePort = configuration.getHttpPort();
+            config.securePort = configuration.getHttpsPort();
+
+            config.pemFromPath("src/main/resources/ssl/cert.pem", "src/main/resources/ssl/key.pem");
+        });
+
+        var app = Javalin.create(config -> {
+            config.registerPlugin(sslPlugin);
+
+            RouteRegistry.register(config, injector);
+
+            config.routes.exception(ApiException.class, (e, ctx) -> {
+                ctx.status(e.getStatusCode());
+                ctx.json(new ErrorResponse(e.getMessage()));
+            });
+
+            /*
+             * config.routes.exception(FileNotFoundException.class, (e, ctx) -> {
+             * ctx.status(404); });
+             */
+
+            config.routes.error(404, ctx -> {
+                ctx.result("Not found 404 message");
+            });
+
+        });
+
+        app.start();
+    }
+}
