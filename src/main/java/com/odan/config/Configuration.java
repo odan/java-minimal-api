@@ -2,7 +2,6 @@ package com.odan.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Configuration {
@@ -10,22 +9,17 @@ public class Configuration {
     private final Config config;
 
     public Configuration() {
-        var dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .load();
+        var dotenv = Dotenv.configure().ignoreIfMissing().load();
 
         dotenv.entries().forEach(entry -> {
             if (System.getProperty(entry.getKey()) == null) {
-                System.setProperty(
-                        entry.getKey(),
-                        entry.getValue());
+                System.setProperty(entry.getKey(), entry.getValue());
             }
         });
 
         var environment = System.getProperty("app.env", "dev");
 
-        var environmentConfig = ConfigFactory
-                .parseResources("application-" + environment + ".properties");
+        var environmentConfig = ConfigFactory.parseResources("application-" + environment + ".properties");
 
         this.config = ConfigFactory.systemProperties()
                 .withFallback(environmentConfig)
@@ -43,6 +37,10 @@ public class Configuration {
 
     public String getAppName() {
         return config.getString("app.name");
+    }
+
+    public String getAppVersion() {
+        return config.getString("app.version");
     }
 
     public String getEnv() {

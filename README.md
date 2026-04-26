@@ -190,6 +190,29 @@ mvn formatter:format
 mvn formatter:validate
 ```
 
+```bash
+mvn checkstyle:check
+```
+
+verifies formatting (fails build if bad)
+
+```
+mvn spotless:check
+```
+
+automatically fix your code
+
+```
+mvn spotless:apply
+```
+
+fix then verify
+
+```
+mvn spotless:apply spotless:check
+```
+
+
 ## Dependency Injection
 
 Guice bindings:

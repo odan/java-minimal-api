@@ -1,7 +1,6 @@
 package com.odan.user.repository;
 
 import com.odan.user.domain.UserEntity;
-
 import java.util.List;
 
 public class UserRepository {

@@ -6,27 +6,39 @@
 
     <groupId>com.odan</groupId>
     <artifactId>minimal-api</artifactId>
-    <version>1.0.0</version>
+    <version>2.1.0</version>
 
     <properties>
         <java.version>25</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
+        <!-- Dependencies -->
         <javalin.version>7.2.0</javalin.version>
         <guice.version>7.0.0</guice.version>
         <typesafe.config.version>1.4.3</typesafe.config.version>
         <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.5.16</logback.version>
         <jackson.version>2.18.3</jackson.version>
         <dotenv.version>3.0.0</dotenv.version>
 
+        <!-- Plugins -->
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <exec.plugin.version>3.5.0</exec.plugin.version>
+        <spotless.version>2.43.0</spotless.version>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
+            <version>${javalin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.javalin.community.ssl</groupId>
+            <artifactId>javalin-ssl</artifactId>
             <version>${javalin.version}</version>
         </dependency>
 
@@ -50,8 +62,14 @@
 
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
@@ -60,12 +78,7 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.javalin.community.ssl</groupId>
-            <artifactId>javalin-ssl</artifactId>
-            <version>${javalin.version}</version>
-        </dependency>
-
+        <!-- Test dependencies -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -86,18 +99,71 @@
             <version>4.2.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
-        <plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
+        <plugins>
+            <!-- Resources plugin (explicit for filtering) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <release>${java.version}</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.version}</version>
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+                        <eclipse>
+                            <file>${project.basedir}/spotless.xml</file>
+                        </eclipse>
+                        <endWithNewline />
+                        <trimTrailingWhitespace />
+                        <removeUnusedImports />
+                        <importOrder />
+                        <formatAnnotations />
+
+                        <indent>
+                            <spaces>true</spaces>
+                            <spacesPerTab>4</spacesPerTab>
+                        </indent>
+                    </java>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <configLocation>${project.basedir}/checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <includes>**/*.java</includes>
+                    <excludes>**/target/**</excludes>
                 </configuration>
             </plugin>
 
@@ -109,17 +175,6 @@
                     <mainClass>com.odan.Main</mainClass>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.24.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <configFile>style.xml</configFile>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 

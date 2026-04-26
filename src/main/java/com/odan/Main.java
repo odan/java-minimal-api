@@ -9,13 +9,24 @@ import com.odan.exception.ErrorResponse;
 import com.odan.routing.RouteRegistry;
 import io.javalin.Javalin;
 import io.javalin.community.ssl.SslPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new AppModule());
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    public static void main(String[] args) {
+        logger.info("Server starting");
+
+        Injector injector = Guice.createInjector(new AppModule());
         var configuration = injector.getInstance(Configuration.class);
+
+        logger.debug("Loaded config {}", configuration.getEnv());
+        logger.info("Environment: {}", configuration.getEnv());
+        logger.info("Version: {}", configuration.getAppVersion());
+        logger.info("HTTP Port: {}", configuration.getHttpPort());
+        logger.info("HTTPS Port: {}", configuration.getHttpsPort());
 
         var sslPlugin = new SslPlugin(config -> {
             config.insecurePort = configuration.getHttpPort();

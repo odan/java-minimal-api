@@ -1,12 +1,12 @@
 package com.odan;
 
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeAll;
-import com.odan.config.Configuration;
-import java.time.Duration;
-import java.net.Socket;
-
 import static org.awaitility.Awaitility.await;
+
+import com.odan.config.Configuration;
+import io.restassured.RestAssured;
+import java.net.Socket;
+import java.time.Duration;
+import org.junit.jupiter.api.BeforeAll;
 
 public abstract class HttpTestCase {
 
@@ -17,13 +17,13 @@ public abstract class HttpTestCase {
         if (started) {
             return;
         }
-        
+
         System.setProperty("app.env", "test");
 
         var config = new Configuration();
         int port = config.getHttpPort();
 
-        var appThread = new Thread(() -> Main.main(new String[] {}));
+        var appThread = new Thread(() -> Main.main(new String[]{}));
         appThread.setDaemon(true);
         appThread.start();
 
