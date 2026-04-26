@@ -22,7 +22,6 @@ public class Main {
         Injector injector = Guice.createInjector(new AppModule());
         var configuration = injector.getInstance(Configuration.class);
 
-        logger.debug("Loaded config {}", configuration.getEnv());
         logger.info("Environment: {}", configuration.getEnv());
         logger.info("Version: {}", configuration.getAppVersion());
         logger.info("HTTP Port: {}", configuration.getHttpPort());
