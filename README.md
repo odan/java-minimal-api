@@ -3,10 +3,24 @@
 A lightweight Java API using:
 
 - Java 21
-- Javalin
-- Google Guice
-- Typesafe Config
-- Maven
+- Javalin (with HTTPS)
+- Google Guice (Dependency Injection)
+- Typesafe Config 
+- Maven (Build)
+
+## Requirements
+
+Install:
+
+- Java 21+
+- Maven 3.9+
+
+Check versions:
+
+```bash
+java --version
+mvn --version
+```
 
 ## Project Structure
 
@@ -73,24 +87,6 @@ app.get("/users", ctx ->
 
 Handlers are lazily resolved through Guice when a route is hit.
 
----
-
-## Requirements
-
-Install:
-
-- Java 21+
-- Maven 3.9+
-
-Check versions:
-
-```bash
-java --version
-mvn --version
-```
-
----
-
 ## Compile
 
 Compile sources:
@@ -98,8 +94,6 @@ Compile sources:
 ```bash
 mvn compile
 ```
-
----
 
 ## Run (Development)
 
@@ -125,8 +119,6 @@ curl http://localhost:8080/health
 curl http://localhost:8080/users
 ```
 
----
-
 ## Clean
 
 Remove generated artifacts:
@@ -134,8 +126,6 @@ Remove generated artifacts:
 ```bash
 mvn clean
 ```
-
----
 
 ## Build
 
@@ -151,8 +141,6 @@ Generated file:
 target/minimal-api-1.0.0.jar
 ```
 
----
-
 ## Run Built Jar
 
 If jar is executable:
@@ -167,15 +155,11 @@ If using dependencies outside fat-jar packaging:
 mvn exec:java -Dapp.env=prod
 ```
 
----
-
 ## Clean + Rebuild
 
 ```bash
 mvn clean package
 ```
-
----
 
 ## Run Tests
 
@@ -194,24 +178,23 @@ mvn formatter:validate
 mvn checkstyle:check
 ```
 
-verifies formatting (fails build if bad)
+Verify formatting (fails build if bad)
 
 ```
 mvn spotless:check
 ```
 
-automatically fix your code
+Automatically fix the code
 
 ```
 mvn spotless:apply
 ```
 
-fix then verify
+Fix then verify
 
 ```
 mvn spotless:apply spotless:check
 ```
-
 
 ## Dependency Injection
 
@@ -228,8 +211,6 @@ Lazy singleton creation:
 - created on first use
 - reused afterwards
 
----
-
 ## Configuration
 
 Configuration file:
@@ -240,64 +221,67 @@ src/main/resources/application.conf
 
 Example:
 
-```hocon
+```
 server.port=8080
 ```
 
----
+### Priorities
+
+```
+1. Command line / existing System Properties (-D..., System.setProperty())
+2. .env file (copied into System Properties, only if missing there)
+3. application-{env}.properties
+4. application.properties (defaults)
+```
+
+Note: `.env` does not override existing system properties.
+
 
 ## Useful Maven Commands
 
 Compile:
 
-```bash
+```
 mvn compile
 ```
 
 Run:
 
-```bash
-set APP_ENV=dev
+```
 mvn exec:java
-```
-
-Priorities:
-
-```
-Env Vars / System Properties
--> application-{env}.properties
--> META-INF/microprofile-config.properties
 ```
 
 Test:
 
-```bash
+```
 mvn test
 ```
 
 Clean:
 
-```bash
+```
 mvn clean
 ```
 
 Build:
 
-```bash
+```
 mvn package
 ```
 
 Clean + Build:
 
-```bash
+```
 mvn clean package
 ```
 
 Dependency tree:
 
-```bash
+```
 mvn dependency:tree
 ```
+
+## HTTPS certificate
 
 Create SSL development certificate
 
