@@ -4,10 +4,13 @@ import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.not;
 
-import com.odan.HttpTestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class HomeHandlerHttpTest extends HttpTestCase {
+import com.odan.testing.HttpTestExtension;
+
+@ExtendWith(HttpTestExtension.class)
+class HomeHandlerHttpTest  {
 
     @Test
     void shouldReturnHomePage() {

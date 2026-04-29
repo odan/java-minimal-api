@@ -3,7 +3,7 @@ package com.odan;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.odan.config.AppModule;
-import com.odan.config.Configuration;
+import com.odan.config.AppConfig;
 import com.odan.exception.ApiException;
 import com.odan.exception.ErrorResponse;
 import com.odan.routing.RouteRegistry;
@@ -20,16 +20,20 @@ public class Main {
         logger.info("Server starting");
 
         Injector injector = Guice.createInjector(new AppModule());
-        var configuration = injector.getInstance(Configuration.class);
+        injector.getInstance(Main.class).start(injector);
+    }
 
-        logger.info("Environment: {}", configuration.getEnv());
-        logger.info("Version: {}", configuration.getAppVersion());
-        logger.info("HTTP Port: {}", configuration.getHttpPort());
-        logger.info("HTTPS Port: {}", configuration.getHttpsPort());
+    public void start(Injector injector) {
+        var configuration = injector.getInstance(AppConfig.class);
+
+        logger.info("Environment: {}", configuration.profile());
+        logger.info("Version: {}", configuration.app().version());
+        logger.info("HTTP Port: {}", configuration.server().httpPort());
+        logger.info("HTTPS Port: {}", configuration.server().httpsPort());
 
         var sslPlugin = new SslPlugin(config -> {
-            config.insecurePort = configuration.getHttpPort();
-            config.securePort = configuration.getHttpsPort();
+            config.insecurePort = configuration.server().httpPort();
+            config.securePort = configuration.server().httpsPort();
 
             config.pemFromPath("src/main/resources/ssl/cert.pem", "src/main/resources/ssl/key.pem");
         });
