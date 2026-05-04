@@ -170,11 +170,6 @@ mvn test
 ## Format Java Files
 
 ```bash
-mvn formatter:format
-mvn formatter:validate
-```
-
-```bash
 mvn checkstyle:check
 ```
 
@@ -213,26 +208,33 @@ Lazy singleton creation:
 
 ## Configuration
 
-Configuration file:
+Configuration files:
 
 ```text
-src/main/resources/application.conf
-```
-
-Example:
-
-```
-server.port=8080
+src/main/resources/META-INF/*.properties
 ```
 
 ### Priorities
 
-```
-1. Command line / existing System Properties (-D..., System.setProperty())
-2. .env file (copied into System Properties, only if missing there)
-3. application-{env}.properties
-4. application.properties (defaults)
-```
+1. System Properties (highest priority → wins over everything)
+
+   Example: `-Dserver.http-port=80`
+
+2. Environment Variables (wins over .env and config files)
+
+   Example: `SERVER_HTTP_PORT=80`
+
+3. `.env` file (wins over config files, but loses against real ENV)
+
+   Example: `SERVER_HTTP_PORT=80`
+
+4. microprofile-config-{profile}.properties (wins over default config file)
+
+   Example: `server.http-port=80`
+
+5. microprofile-config.properties (lowest priority → overridden by all above)
+
+   Example: `server.http-port=80`
 
 Note: `.env` does not override existing system properties.
 

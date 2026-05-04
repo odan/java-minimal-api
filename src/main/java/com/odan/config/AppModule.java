@@ -3,14 +3,12 @@ package com.odan.config;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
 import com.odan.health.handler.HealthHandler;
 import com.odan.home.handler.HomeHandler;
 import com.odan.user.handler.GetUsersHandler;
 import com.odan.user.mapper.UserMapper;
 import com.odan.user.repository.UserRepository;
 import com.odan.user.service.UserService;
-
 import io.smallrye.config.SmallRyeConfig;
 import io.smallrye.config.SmallRyeConfigBuilder;
 
@@ -32,8 +30,7 @@ public class AppModule extends AbstractModule {
     @Provides
     @Singleton
     public SmallRyeConfig provideSmallRyeConfig() {
-        return new SmallRyeConfigBuilder()
-                .addDefaultInterceptors()// extra
+        return new SmallRyeConfigBuilder().addDefaultInterceptors()// extra
                 .addDiscoveredInterceptors() // extra
                 .addDefaultSources()
                 .addDiscoveredSources()

@@ -4,18 +4,16 @@ import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
+import com.odan.testing.HttpTestExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.odan.testing.HttpTestExtension;
 
 @ExtendWith(HttpTestExtension.class)
 class GetUsersHandlerHttpTest {
 
     @Test
     void shouldReturnUsers() {
-        get("/users")
-                .then()
+        get("/users").then()
                 .statusCode(200)
 
                 // array size

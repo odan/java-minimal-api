@@ -2,8 +2,8 @@ package com.odan;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.odan.config.AppModule;
 import com.odan.config.AppConfig;
+import com.odan.config.AppModule;
 import com.odan.exception.ApiException;
 import com.odan.exception.ErrorResponse;
 import com.odan.routing.RouteRegistry;

@@ -24,10 +24,7 @@ public final class HttpTestExtension implements BeforeAllCallback {
             return;
         }
 
-        var injector = Guice
-            .createInjector(Modules.override(
-                    new AppModule())
-                .with(new TestModule()));
+        var injector = Guice.createInjector(Modules.override(new AppModule()).with(new TestModule()));
 
         var config = injector.getInstance(AppConfig.class);
         var app = injector.getInstance(Main.class);
@@ -40,16 +37,13 @@ public final class HttpTestExtension implements BeforeAllCallback {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
 
-        await()
-            .atMost(Duration.ofSeconds(10))
-            .pollInterval(Duration.ofMillis(250))
-            .until(() -> {
-                try (var socket = new Socket("localhost", port)) {
-                    return true;
-                } catch (Exception exception) {
-                    return false;
-                }
-            });
+        await().atMost(Duration.ofSeconds(10)).pollInterval(Duration.ofMillis(250)).until(() -> {
+            try (var _ = new Socket("localhost", port)) {
+                return true;
+            } catch (Exception _) {
+                return false;
+            }
+        });
 
         started = true;
     }
