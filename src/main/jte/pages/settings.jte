@@ -1,0 +1,172 @@
+@template.layout(
+    title = "Settings",
+
+    head = @`
+        <link rel="stylesheet" href="/css/settings.css">
+    `,
+
+    body = @`
+        <div class="row g-4">
+
+            <div class="col-12 col-lg-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <a href="#account" class="list-group-item list-group-item-action active">
+                            Account
+                        </a>
+                        <a href="#security" class="list-group-item list-group-item-action">
+                            Security
+                        </a>
+                        <a href="#notifications" class="list-group-item list-group-item-action">
+                            Notifications
+                        </a>
+                        <a href="#appearance" class="list-group-item list-group-item-action">
+                            Appearance
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-9">
+
+                <form class="card" id="account">
+                    <div class="card-header">
+                        <h3 class="card-title">Account Settings</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label">First name</label>
+                                <input type="text" class="form-control" value="Admin">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Last name</label>
+                                <input type="text" class="form-control" value="User">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Email address</label>
+                                <input type="email" class="form-control" value="admin@example.com">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Language</label>
+                                <select class="form-select">
+                                    <option selected>English</option>
+                                    <option>Deutsch</option>
+                                    <option>Français</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Timezone</label>
+                                <select class="form-select">
+                                    <option selected>Europe/Zurich</option>
+                                    <option>UTC</option>
+                                    <option>America/New_York</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary">Save account</button>
+                    </div>
+                </form>
+
+                <form class="card mt-4" id="security">
+                    <div class="card-header">
+                        <h3 class="card-title">Security</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Current password</label>
+                            <input type="password" class="form-control">
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">New password</label>
+                                <input type="password" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Confirm password</label>
+                                <input type="password" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary">Update password</button>
+                    </div>
+                </form>
+
+                <form class="card mt-4" id="notifications">
+                    <div class="card-header">
+                        <h3 class="card-title">Notifications</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <label class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" checked>
+                            <span class="form-check-label">Email notifications</span>
+                        </label>
+
+                        <label class="form-check form-switch mt-3">
+                            <input class="form-check-input" type="checkbox" checked>
+                            <span class="form-check-label">Weekly reports</span>
+                        </label>
+
+                        <label class="form-check form-switch mt-3">
+                            <input class="form-check-input" type="checkbox">
+                            <span class="form-check-label">Marketing emails</span>
+                        </label>
+                    </div>
+                </form>
+
+                <form class="card mt-4" id="appearance">
+                    <div class="card-header">
+                        <h3 class="card-title">Appearance</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-label">Theme</div>
+
+                        <div class="form-selectgroup">
+                            <label class="form-selectgroup-item">
+                                <input type="radio" name="theme" value="light" class="form-selectgroup-input" checked>
+                                <span class="form-selectgroup-label">Light</span>
+                            </label>
+
+                            <label class="form-selectgroup-item">
+                                <input type="radio" name="theme" value="dark" class="form-selectgroup-input">
+                                <span class="form-selectgroup-label">Dark</span>
+                            </label>
+
+                            <label class="form-selectgroup-item">
+                                <input type="radio" name="theme" value="system" class="form-selectgroup-input">
+                                <span class="form-selectgroup-label">System</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary">Save preferences</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    `,
+
+    scripts = @`
+        <script type="module" src="/js/settings.js"></script>
+    `
+)

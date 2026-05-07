@@ -13,11 +13,7 @@ class HealthHandlerHttpTest {
 
     @Test
     void shouldReturnHealthStatus() {
-        var response = get("/health")
-                .then()
-                .statusCode(200)
-                .extract()
-                .as(HealthResponse.class);
+        var response = get("/health").then().statusCode(200).extract().as(HealthResponse.class);
 
         assertEquals("UP", response.status());
     }
