@@ -13,11 +13,9 @@ public final class RouteRegistry {
     }
 
     public static void register(JavalinConfig config, Injector injector) {
-        config.routes.get("/", ctx -> injector.getInstance(HomeHandler.class).handle(ctx));
-        config.routes.get("/settings", ctx -> injector.getInstance(SettingsHandler.class).handle(ctx));
-
-        config.routes.get("/health", ctx -> injector.getInstance(HealthHandler.class).handle(ctx));
-
-        config.routes.get("/users", ctx -> injector.getInstance(GetUsersHandler.class).handle(ctx));
+        config.routes.get("/", injector.getInstance(HomeHandler.class));
+        config.routes.get("/settings", injector.getInstance(SettingsHandler.class));
+        config.routes.get("/health", injector.getInstance(HealthHandler.class));
+        config.routes.get("/users", injector.getInstance(GetUsersHandler.class));
     }
 }
