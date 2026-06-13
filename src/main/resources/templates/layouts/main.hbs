@@ -6,6 +6,7 @@
     <title>{{#block "title"}}Minimal API{{/block}}</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css">
     <link rel="stylesheet" href="/css/app.css">
 
     {{#block "head"}}{{/block}}
@@ -33,6 +34,7 @@
 
                 <div class="nav-item d-none d-md-flex me-3">
                     <a href="/settings" class="btn btn-outline-primary">
+                        <i class="ti ti-settings icon"></i>
                         Settings
                     </a>
                 </div>
@@ -47,10 +49,19 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <a href="/settings" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Profile</a>
+                        <a href="/settings" class="dropdown-item">
+                            <i class="ti ti-settings icon dropdown-item-icon"></i>
+                            Settings
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="ti ti-user icon dropdown-item-icon"></i>
+                            Profile
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item text-danger">Logout</a>
+                        <a href="#" class="dropdown-item text-danger">
+                            <i class="ti ti-logout icon dropdown-item-icon"></i>
+                            Logout
+                        </a>
                     </div>
                 </div>
 
@@ -63,13 +74,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                         stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <path d="M5 12l-2 0l9 -9l9 9l-2 0"/>
-                                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"/>
-                                    </svg>
+                                    <i class="ti ti-home icon"></i>
                                 </span>
                                 <span class="nav-link-title">Dashboard</span>
                             </a>
@@ -77,18 +82,27 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="/users">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-users icon"></i>
+                                </span>
                                 <span class="nav-link-title">Users</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="/reports">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-report-analytics icon"></i>
+                                </span>
                                 <span class="nav-link-title">Reports</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="/settings">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-settings icon"></i>
+                                </span>
                                 <span class="nav-link-title">Settings</span>
                             </a>
                         </li>
@@ -125,10 +139,16 @@
                     <div class="col-lg-auto ms-lg-auto">
                         <ul class="list-inline list-inline-dots mb-0">
                             <li class="list-inline-item">
-                                <a href="/settings" class="link-secondary">Settings</a>
+                                <a href="/settings" class="link-secondary">
+                                    <i class="ti ti-settings icon"></i>
+                                    Settings
+                                </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="/health" class="link-secondary">Health</a>
+                                <a href="/health" class="link-secondary">
+                                    <i class="ti ti-heartbeat icon"></i>
+                                    Health
+                                </a>
                             </li>
                         </ul>
                     </div>
