@@ -5,7 +5,8 @@ import io.smallrye.config.WithDefault;
 import io.smallrye.config.WithName;
 
 @ConfigMapping(prefix = "")
-public interface AppConfig {
+public interface AppConfig
+{
 
     @WithName("smallrye.config.profile")
     @WithDefault("dev")
@@ -15,14 +16,16 @@ public interface AppConfig {
 
     Server server();
 
-    interface App {
+    interface App
+    {
 
         String name();
 
         String version();
     }
 
-    interface Server {
+    interface Server
+    {
 
         @WithDefault("80")
         int httpPort();

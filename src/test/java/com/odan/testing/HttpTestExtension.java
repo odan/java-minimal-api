@@ -14,7 +14,8 @@ import java.time.Duration;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public final class HttpTestExtension implements BeforeAllCallback {
+public final class HttpTestExtension implements BeforeAllCallback
+{
 
     private static boolean started = false;
 

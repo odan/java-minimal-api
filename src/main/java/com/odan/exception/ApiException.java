@@ -1,6 +1,7 @@
 package com.odan.exception;
 
-public class ApiException extends RuntimeException {
+public class ApiException extends RuntimeException
+{
 
     private final int statusCode;
 

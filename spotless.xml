@@ -28,7 +28,7 @@
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_in_java_lambda_body" value="0"/>
 
         <!-- Braces -->
-        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_class_declaration" value="next_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="next_line"/>
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="next_line"/>
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="next_line"/>
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration" value="next_line"/>

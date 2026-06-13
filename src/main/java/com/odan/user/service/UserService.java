@@ -6,7 +6,8 @@ import com.odan.user.mapper.UserMapper;
 import com.odan.user.repository.UserRepository;
 import java.util.List;
 
-public class UserService {
+public class UserService
+{
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;

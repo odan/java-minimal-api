@@ -9,7 +9,8 @@ import io.javalin.rendering.FileRenderer;
 import java.io.IOException;
 import java.util.Map;
 
-public class HandlebarsRenderer implements FileRenderer {
+public class HandlebarsRenderer implements FileRenderer
+{
 
     private static final String TEMPLATE_SUFFIX = ".hbs";
 

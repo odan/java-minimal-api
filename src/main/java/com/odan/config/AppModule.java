@@ -22,7 +22,8 @@ import io.javalin.rendering.FileRenderer;
 import io.smallrye.config.SmallRyeConfig;
 import io.smallrye.config.SmallRyeConfigBuilder;
 
-public class AppModule extends AbstractModule {
+public class AppModule extends AbstractModule
+{
 
     @Override
     protected void configure()

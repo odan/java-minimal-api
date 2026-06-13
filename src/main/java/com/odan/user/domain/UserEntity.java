@@ -1,4 +1,11 @@
 package com.odan.user.domain;
 
-public record UserEntity(int id, String username, String email, String passwordHash, boolean internalAdminFlag) {
+public class UserEntity
+{
+
+    public int id;
+    public String username;
+    public String email;
+    public String passwordHash;
+    public boolean internalAdminFlag;
 }

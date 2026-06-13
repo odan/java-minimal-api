@@ -1,4 +1,9 @@
 package com.odan.user.dto;
 
-public record UserResponse(int id, String username, String email) {
+public class UserResponse
+{
+
+    public int id;
+    public String username;
+    public String email;
 }

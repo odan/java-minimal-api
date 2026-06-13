@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(HttpTestExtension.class)
-class HomeHandlerHttpTest {
+class HomeHandlerHttpTest
+{
 
     @Test
     void shouldReturnHomePage()

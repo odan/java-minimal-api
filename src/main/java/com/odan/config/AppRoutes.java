@@ -7,7 +7,8 @@ import com.odan.settings.handler.SettingsHandler;
 import com.odan.user.handler.GetUsersHandler;
 import io.javalin.config.JavalinConfig;
 
-public final class AppRoutes {
+public final class AppRoutes
+{
 
     private AppRoutes()
     {

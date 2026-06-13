@@ -5,7 +5,8 @@ import com.odan.user.service.UserService;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
-public class GetUsersHandler implements Handler {
+public class GetUsersHandler implements Handler
+{
 
     private final UserService userService;
 
