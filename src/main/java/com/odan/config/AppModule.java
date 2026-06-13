@@ -1,5 +1,7 @@
 package com.odan.config;
 
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -8,29 +10,27 @@ import com.odan.exception.ApiException;
 import com.odan.exception.ErrorResponse;
 import com.odan.health.handler.HealthHandler;
 import com.odan.home.handler.HomeHandler;
-import com.odan.routing.RouteRegistry;
+import com.odan.settings.handler.SettingsHandler;
 import com.odan.user.handler.GetUsersHandler;
 import com.odan.user.mapper.UserMapper;
 import com.odan.user.repository.UserRepository;
 import com.odan.user.service.UserService;
-import gg.jte.ContentType;
-import gg.jte.TemplateEngine;
-import gg.jte.resolve.DirectoryCodeResolver;
+import com.odan.util.HandlebarsRenderer;
 import io.javalin.Javalin;
 import io.javalin.community.ssl.SslPlugin;
-import io.javalin.rendering.template.JavalinJte;
+import io.javalin.rendering.FileRenderer;
 import io.smallrye.config.SmallRyeConfig;
 import io.smallrye.config.SmallRyeConfigBuilder;
-import java.nio.file.Path;
 
 public class AppModule extends AbstractModule {
 
     @Override
     protected void configure()
     {
-        // bind(Configuration.class).in(Singleton.class);
+        bind(FileRenderer.class).to(HandlebarsRenderer.class).in(Singleton.class);
 
         bind(HomeHandler.class).in(Singleton.class);
+        bind(SettingsHandler.class).in(Singleton.class);
         bind(HealthHandler.class).in(Singleton.class);
         bind(GetUsersHandler.class).in(Singleton.class);
 
@@ -61,14 +61,14 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public Javalin provideJavalin(Injector injector, SslPlugin sslPlugin, JavalinJte jte)
+    public Javalin provideJavalin(Injector injector, SslPlugin sslPlugin, FileRenderer fileRenderer)
     {
         return Javalin.create(config -> {
-            config.fileRenderer(jte);
+            config.fileRenderer(fileRenderer);
             config.staticFiles.add("/public");
             config.registerPlugin(sslPlugin);
 
-            RouteRegistry.register(config, injector);
+            AppRoutes.register(config, injector);
 
             config.routes.exception(ApiException.class, (e, ctx) -> {
                 ctx.status(e.getStatusCode());
@@ -94,30 +94,14 @@ public class AppModule extends AbstractModule {
             config.insecurePort = appConfig.server().httpPort();
             config.securePort = appConfig.server().httpsPort();
 
-            config.pemFromPath("src/main/resources/ssl/cert.pem", "src/main/resources/ssl/key.pem");
+            config.pemFromPath("src/main/resources/ssl/localhost.crt", "src/main/resources/ssl/localhost.key");
         });
     }
 
     @Provides
     @Singleton
-    public JavalinJte provideJavalinJte(TemplateEngine templateEngine)
+    public Handlebars provideHandlebars()
     {
-        return new JavalinJte(templateEngine);
-    }
-
-    @Provides
-    @Singleton
-    public TemplateEngine provideTemplateEngine(AppConfig config)
-    {
-        if (config.profile().equals("prod")) {
-            // Us precompiled templates in production for better performance
-            return TemplateEngine.createPrecompiled(ContentType.Html);
-        }
-
-        // Use dynamic template compilation in development for easier debugging
-        DirectoryCodeResolver codeResolver = new DirectoryCodeResolver(Path.of("src/main/jte"));
-
-        return TemplateEngine.create(codeResolver, Path.of("target/jte-classes"), ContentType.Html,
-                getClass().getClassLoader());
+        return new Handlebars(new ClassPathTemplateLoader("/templates", ".hbs"));
     }
 }

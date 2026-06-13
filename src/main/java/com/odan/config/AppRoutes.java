@@ -1,4 +1,4 @@
-package com.odan.routing;
+package com.odan.config;
 
 import com.google.inject.Injector;
 import com.odan.health.handler.HealthHandler;
@@ -7,9 +7,9 @@ import com.odan.settings.handler.SettingsHandler;
 import com.odan.user.handler.GetUsersHandler;
 import io.javalin.config.JavalinConfig;
 
-public final class RouteRegistry {
+public final class AppRoutes {
 
-    private RouteRegistry()
+    private AppRoutes()
     {
     }
 

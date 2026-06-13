@@ -7,6 +7,6 @@ public class HomeHandler implements Handler {
 
     public void handle(Context ctx)
     {
-        ctx.render("pages/dashboard.jte");
+        ctx.render("pages/dashboard.hbs");
     }
 }
