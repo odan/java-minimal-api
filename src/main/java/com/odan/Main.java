@@ -12,14 +12,16 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         logger.info("Server starting");
 
         Injector injector = Guice.createInjector(new AppModule());
         injector.getInstance(Main.class).start(injector);
     }
 
-    public void start(Injector injector) {
+    public void start(Injector injector)
+    {
         var configuration = injector.getInstance(AppConfig.class);
 
         logger.info("Environment: {}", configuration.profile());

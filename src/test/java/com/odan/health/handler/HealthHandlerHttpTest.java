@@ -12,7 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class HealthHandlerHttpTest {
 
     @Test
-    void shouldReturnHealthStatus() {
+    void shouldReturnHealthStatus()
+    {
         var response = get("/health").then().statusCode(200).extract().as(HealthResponse.class);
 
         assertEquals("UP", response.status());

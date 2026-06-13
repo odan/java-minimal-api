@@ -9,10 +9,12 @@ import io.javalin.config.JavalinConfig;
 
 public final class RouteRegistry {
 
-    private RouteRegistry() {
+    private RouteRegistry()
+    {
     }
 
-    public static void register(JavalinConfig config, Injector injector) {
+    public static void register(JavalinConfig config, Injector injector)
+    {
         config.routes.get("/", injector.getInstance(HomeHandler.class));
         config.routes.get("/settings", injector.getInstance(SettingsHandler.class));
         config.routes.get("/health", injector.getInstance(HealthHandler.class));

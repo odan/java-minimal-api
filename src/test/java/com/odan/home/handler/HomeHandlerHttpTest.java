@@ -12,7 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class HomeHandlerHttpTest {
 
     @Test
-    void shouldReturnHomePage() {
+    void shouldReturnHomePage()
+    {
         get("/").then().statusCode(200).body(not(emptyString()));
     }
 }

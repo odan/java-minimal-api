@@ -5,7 +5,8 @@ import io.javalin.http.Handler;
 
 public class SettingsHandler implements Handler {
 
-    public void handle(Context ctx) {
+    public void handle(Context ctx)
+    {
         ctx.render("pages/settings.jte");
     }
 }

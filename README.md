@@ -49,6 +49,8 @@ src/main/java/com/odan
 
 src/main/resources/
 └── application.conf
+
+.env                              # Environment overrides (local, gitignored)
 ```
 
 ## Architecture
@@ -80,9 +82,7 @@ com.odan.routing.RouteRegistry
 Example:
 
 ```java
-app.get("/users", ctx ->
-    injector.getInstance(GetUsersHandler.class).handle(ctx)
-);
+app.get("/users", injector.getInstance(GetUsersHandler.class));
 ```
 
 Handlers are lazily resolved through Guice when a route is hit.
@@ -152,7 +152,7 @@ java -jar target/minimal-api-1.0.0.jar
 If using dependencies outside fat-jar packaging:
 
 ```bash
-mvn exec:java -Dapp.env=prod
+mvn exec:java -Dsmallrye.config.profile=prod
 ```
 
 ## Clean + Rebuild
@@ -167,29 +167,35 @@ mvn clean package
 mvn test
 ```
 
-## Format Java Files
+## Code Formatting
+
+This project uses [Spotless](https://github.com/diffplug/spotless) with the Eclipse JDT formatter to enforce consistent Java code style.
+
+Formatting rules are defined in:
+
+```text
+spotless.xml
+```
+
+Check formatting (fails build if violations found):
 
 ```bash
-mvn checkstyle:check
-```
-
-Verify formatting (fails build if bad)
-
-```
 mvn spotless:check
 ```
 
-Automatically fix the code
+Automatically fix formatting violations:
 
-```
+```bash
 mvn spotless:apply
 ```
 
-Fix then verify
+Fix then verify:
 
+```bash
+mvn spotless:apply && mvn spotless:check
 ```
-mvn spotless:apply spotless:check
-```
+
+To auto-format on save, install the [Spotless Gradle](https://marketplace.visualstudio.com/items?itemName=richardwillis.vscode-spotless-gradle) extension and trigger via `mvn spotless:apply`.
 
 ## Dependency Injection
 
@@ -237,6 +243,18 @@ src/main/resources/META-INF/*.properties
    Example: `server.http-port=80`
 
 Note: `.env` does not override existing system properties.
+
+### Profile
+
+The active configuration profile is set via `smallrye.config.profile`:
+
+```bash
+-Dsmallrye.config.profile=prod     # production
+-Dsmallrye.config.profile=dev      # development (default)
+-Dsmallrye.config.profile=test     # tests
+```
+
+The default profile is `dev` (defined in `AppConfig.java`).
 
 
 ## Useful Maven Commands

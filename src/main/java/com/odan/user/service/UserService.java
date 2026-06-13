@@ -12,12 +12,14 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Inject
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper)
+    {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
-    public List<UserResponse> getUsers() {
+    public List<UserResponse> getUsers()
+    {
 
         return userRepository.findAll().stream().map(userMapper::toResponse).toList();
     }

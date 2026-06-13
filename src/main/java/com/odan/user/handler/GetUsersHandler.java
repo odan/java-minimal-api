@@ -10,11 +10,13 @@ public class GetUsersHandler implements Handler {
     private final UserService userService;
 
     @Inject
-    public GetUsersHandler(UserService userService) {
+    public GetUsersHandler(UserService userService)
+    {
         this.userService = userService;
     }
 
-    public void handle(Context ctx) {
+    public void handle(Context ctx)
+    {
         ctx.json(userService.getUsers());
     }
 }

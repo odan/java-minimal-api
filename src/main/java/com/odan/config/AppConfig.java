@@ -16,11 +16,14 @@ public interface AppConfig {
     Server server();
 
     interface App {
+
         String name();
+
         String version();
     }
 
     interface Server {
+
         @WithDefault("80")
         int httpPort();
 

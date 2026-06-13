@@ -5,7 +5,8 @@ import io.javalin.http.Handler;
 
 public class HealthHandler implements Handler {
 
-    public void handle(Context ctx) {
+    public void handle(Context ctx)
+    {
         ctx.json(new HealthResponse("UP"));
     }
 

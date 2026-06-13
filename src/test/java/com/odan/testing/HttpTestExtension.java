@@ -19,7 +19,8 @@ public final class HttpTestExtension implements BeforeAllCallback {
     private static boolean started = false;
 
     @Override
-    public void beforeAll(ExtensionContext context) {
+    public void beforeAll(ExtensionContext context)
+    {
         if (started) {
             return;
         }

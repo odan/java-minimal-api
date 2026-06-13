@@ -26,7 +26,8 @@ import java.nio.file.Path;
 public class AppModule extends AbstractModule {
 
     @Override
-    protected void configure() {
+    protected void configure()
+    {
         // bind(Configuration.class).in(Singleton.class);
 
         bind(HomeHandler.class).in(Singleton.class);
@@ -40,7 +41,8 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public SmallRyeConfig provideSmallRyeConfig() {
+    public SmallRyeConfig provideSmallRyeConfig()
+    {
         return new SmallRyeConfigBuilder().addDefaultInterceptors()// extra
                 .addDiscoveredInterceptors() // extra
                 .addDefaultSources()
@@ -52,13 +54,15 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public AppConfig provideConfiguration(SmallRyeConfig config) {
+    public AppConfig provideConfiguration(SmallRyeConfig config)
+    {
         return config.getConfigMapping(AppConfig.class);
     }
 
     @Provides
     @Singleton
-    public Javalin provideJavalin(Injector injector, SslPlugin sslPlugin, JavalinJte jte) {
+    public Javalin provideJavalin(Injector injector, SslPlugin sslPlugin, JavalinJte jte)
+    {
         return Javalin.create(config -> {
             config.fileRenderer(jte);
             config.staticFiles.add("/public");
@@ -72,8 +76,7 @@ public class AppModule extends AbstractModule {
             });
 
             /*
-             * config.routes.exception(FileNotFoundException.class, (e, ctx) -> {
-             * ctx.status(404); });
+             * config.routes.exception(FileNotFoundException.class, (e, ctx) -> { ctx.status(404); });
              */
 
             config.routes.error(404, ctx -> {
@@ -85,7 +88,8 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public SslPlugin provideSslPlugin(AppConfig appConfig) {
+    public SslPlugin provideSslPlugin(AppConfig appConfig)
+    {
         return new SslPlugin(config -> {
             config.insecurePort = appConfig.server().httpPort();
             config.securePort = appConfig.server().httpsPort();
@@ -96,13 +100,15 @@ public class AppModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public JavalinJte provideJavalinJte(TemplateEngine templateEngine) {
+    public JavalinJte provideJavalinJte(TemplateEngine templateEngine)
+    {
         return new JavalinJte(templateEngine);
     }
 
     @Provides
     @Singleton
-    public TemplateEngine provideTemplateEngine(AppConfig config) {
+    public TemplateEngine provideTemplateEngine(AppConfig config)
+    {
         if (config.profile().equals("prod")) {
             // Us precompiled templates in production for better performance
             return TemplateEngine.createPrecompiled(ContentType.Html);

@@ -12,7 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class GetUsersHandlerHttpTest {
 
     @Test
-    void shouldReturnUsers() {
+    void shouldReturnUsers()
+    {
         get("/users").then()
                 .statusCode(200)
 
