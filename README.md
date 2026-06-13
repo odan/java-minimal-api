@@ -303,14 +303,21 @@ mvn dependency:tree
 
 ## HTTPS certificate
 
-Create SSL development certificate
+Create a trusted SSL certificate for local development by running the helper script as Administrator:
 
+```bat
+src\main\resources\ssl\create-dev-certificate.bat
 ```
-openssl req -x509 -newkey rsa:4096 -keyout src/main/resources/ssl/key.pem -out src/main/resources/ssl/cert.pem -days 365 -nodes
+
+The script requires OpenSSL in your `PATH`. It creates a local root CA, installs it into the Windows Trusted Root Certification Authorities store, and generates a localhost certificate for `localhost`, `127.0.0.1`, and `::1`.
+
+Generated files are written to:
+
+```text
+src/main/resources/ssl/
 ```
 
-Enter "localhost" for the domain.
-
+The application uses the generated development certificate files from this directory.
 
 ## Future Extensions
 
