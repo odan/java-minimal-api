@@ -23,13 +23,10 @@ public class Main
 
     public void start(Injector injector)
     {
-        var configuration = injector.getInstance(AppConfig.class);
+        var config = injector.getInstance(AppConfig.class);
 
-        logger.info("Environment: {}", configuration.profile());
-        logger.info("Version: {}", configuration.appVersion());
-
-        injector.getInstance(Javalin.class).start(configuration.serverHttpPort());
-
-        logger.info("Listening on http://localhost:{}/", configuration.serverHttpPort());
+        logger.info("Environment: {}", config.profile());
+        logger.info("Version: {}", config.appVersion());
+        injector.getInstance(Javalin.class).start(config.serverHttpPort());
     }
 }

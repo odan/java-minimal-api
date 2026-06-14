@@ -111,7 +111,7 @@ Handlers are resolved through Guice when a route is registered.
 
 Compile sources:
 
-```bash
+```bas
 mvn compile
 ```
 
@@ -119,7 +119,7 @@ mvn compile
 
 Run application:
 
-```bash
+```
 mvn exec:java
 ```
 
@@ -131,11 +131,11 @@ http://localhost:8080
 
 Test endpoints:
 
-```bash
+```
 curl http://localhost:8080/health
 ```
 
-```bash
+```
 curl http://localhost:8080/users
 ```
 
@@ -143,7 +143,7 @@ curl http://localhost:8080/users
 
 Remove generated artifacts:
 
-```bash
+```
 mvn clean
 ```
 
@@ -151,7 +151,7 @@ mvn clean
 
 Create jar:
 
-```bash
+```
 mvn package
 ```
 
