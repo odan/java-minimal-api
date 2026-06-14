@@ -15,5 +15,11 @@
             ]
         }
     ],
-    "java.test.defaultConfig": "Test Profile"
+    "java.test.defaultConfig": "Test Profile",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java",
+        "editor.formatOnSave": true
+    },
+    "java.format.settings.url": "spotless.xml",
+    "java.format.settings.profile": "EnterpriseSpaces"
 }
