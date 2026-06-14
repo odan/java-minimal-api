@@ -31,12 +31,11 @@ public final class HttpTestExtension implements BeforeAllCallback
         var javalin = injector.getInstance(Javalin.class);
 
         app.start(injector);
-        // var appThread = new Thread(() -> app.start(injector));
-        // appThread.setDaemon(true);
-        // appThread.start();
 
         // Wait until server is really running and has a port
-        await().atMost(Duration.ofSeconds(10)).pollInterval(Duration.ofMillis(250)).until(() -> javalin.port() > 0);
+        await().atMost(Duration.ofSeconds(10))
+                .pollInterval(Duration.ofMillis(250))
+                .until(() -> javalin.port() > 0);
 
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = javalin.port();

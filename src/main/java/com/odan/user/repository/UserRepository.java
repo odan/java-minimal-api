@@ -9,7 +9,8 @@ public class UserRepository
     public List<UserEntity> findAll()
     {
 
-        return List.of(createUser(1, "alice", "alice@example.com", "secret-1", true),
+        return List.of(
+                createUser(1, "alice", "alice@example.com", "secret-1", true),
                 createUser(2, "bob", "bob@example.com", "secret-2", false));
     }
 
