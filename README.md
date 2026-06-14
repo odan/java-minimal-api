@@ -333,6 +333,31 @@ Dependency tree:
 mvn dependency:tree
 ```
 
+## Visual Studio Code
+
+Example: `launch.json`
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Application",
+            "request": "launch",
+            "mainClass": "com.odan.Main",
+            "projectName": "minimal-api",
+            "serverReadyAction": {
+                "pattern": "Listening on http://localhost:(\\d+)/",
+                "uriFormat": "http://localhost:%s",
+                "action": "openExternally"
+            }
+        }
+    ]
+}
+
+```
+
 ## Future Extensions
 
 Possible next steps:
