@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Application",
+            "request": "launch",
+            "mainClass": "com.odan.Main",
+            "projectName": "minimal-api",
+            "serverReadyAction": {
+                "pattern": "Listening on http://localhost:(\\d+)/",
+                "uriFormat": "http://localhost:%s",
+                "action": "openExternally"
+            }
+        }
+    ]
+}

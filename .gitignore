@@ -27,7 +27,7 @@ dependency-reduced-pom.xml
 .settings/
 
 # IDE - VS Code
-.vscode/
+#.vscode/
 
 # OS files
 .DS_Store

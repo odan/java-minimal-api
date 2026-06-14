@@ -30,7 +30,7 @@ public final class HttpTestExtension implements BeforeAllCallback
 
         var config = injector.getInstance(AppConfig.class);
         var app = injector.getInstance(Main.class);
-        var port = config.server().httpPort();
+        var port = config.serverHttpPort();
 
         var appThread = new Thread(() -> app.start(injector));
         appThread.setDaemon(true);
