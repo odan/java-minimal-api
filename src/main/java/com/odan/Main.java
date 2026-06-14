@@ -26,9 +26,10 @@ public class Main
         var configuration = injector.getInstance(AppConfig.class);
 
         logger.info("Environment: {}", configuration.profile());
-        logger.info("Version: {}", configuration.app().version());
-        logger.info("HTTP Port: {}", configuration.server().httpPort());
+        logger.info("Version: {}", configuration.appVersion());
 
-        injector.getInstance(Javalin.class).start();
+        injector.getInstance(Javalin.class).start(configuration.serverHttpPort());
+
+        logger.info("Listening on http://localhost:{}/", configuration.serverHttpPort());
     }
 }

@@ -17,7 +17,6 @@
         <!-- Dependencies -->
         <javalin.version>7.2.0</javalin.version>
         <guice.version>7.0.0</guice.version>
-        <typesafe.config.version>1.4.3</typesafe.config.version>
         <slf4j.version>2.0.17</slf4j.version>
         <logback.version>1.5.16</logback.version>
         <jackson.version>2.18.3</jackson.version>
@@ -26,6 +25,7 @@
 
         <!-- Plugins -->
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.5.0</maven.surefire.plugin.version>
         <exec.plugin.version>3.5.0</exec.plugin.version>
         <spotless.version>2.43.0</spotless.version>
         <shade.plugin.version>3.6.0</shade.plugin.version>
@@ -196,6 +196,7 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <systemPropertyVariables>
                         <smallrye.config.profile>test</smallrye.config.profile>

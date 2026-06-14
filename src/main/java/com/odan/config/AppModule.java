@@ -20,6 +20,7 @@ import io.javalin.Javalin;
 import io.javalin.rendering.FileRenderer;
 import io.smallrye.config.SmallRyeConfig;
 import io.smallrye.config.SmallRyeConfigBuilder;
+import org.slf4j.LoggerFactory;
 
 public class AppModule extends AbstractModule
 {
@@ -63,7 +64,7 @@ public class AppModule extends AbstractModule
     @Singleton
     public Javalin provideJavalin(Injector injector, FileRenderer fileRenderer)
     {
-        return Javalin.create(config -> {
+        var javalin = Javalin.create(config -> {
             config.fileRenderer(fileRenderer);
             config.staticFiles.add("/public");
 
@@ -79,6 +80,13 @@ public class AppModule extends AbstractModule
             });
 
         });
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            LoggerFactory.getLogger(AppModule.class).info("Server shutting down");
+            javalin.stop();
+        }));
+
+        return javalin;
     }
 
     @Provides

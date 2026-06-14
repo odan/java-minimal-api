@@ -7,7 +7,7 @@ This file is intended for AI coding agents (Cline, Cursor, Copilot, etc.) to qui
 A lightweight Java REST API (`minimal-api`) built with:
 
 - **Java 25** — Language/runtime
-- **Javalin 7** — HTTP framework (with HTTPS via `javalin-ssl`)
+- **Javalin 7** — HTTP framework
 - **Google Guice 7** — Dependency injection
 - **SmallRye Config** — Configuration (supports `.env`, system properties, env vars)
 - **Handlebars** — Server-side template engine
@@ -108,7 +108,7 @@ When adding a route:
 - All bindings are defined in `AppModule.java`.
 - Handlers, services, repositories, and mappers are bound as singletons.
 - Constructor injection with `@Inject` is preferred.
-- `Javalin`, `SslPlugin`, `Handlebars`, and `AppConfig` are provided via `@Provides` methods.
+- `Javalin`, `Handlebars`, and `AppConfig` are provided via `@Provides` methods.
 - The injector is created in `Main.main()`; `Main.start(Injector)` starts the server.
 
 For tests, `TestModule` overrides `AppModule` via `Modules.override(...).with(new TestModule())`.
@@ -144,7 +144,6 @@ src/main/resources/
 │   ├── microprofile-config-prod.properties
 │   └── microprofile-config-test.properties
 ├── logback.xml
-├── ssl/                        # Dev TLS certificates (see create-dev-certificate.bat)
 ├── public/                     # Static assets served at / (css/, js/, etc.)
 └── templates/
     ├── layouts/main.hbs
@@ -201,26 +200,13 @@ throw new ApiException(404, "User not found");
 // -> {"message":"User not found"} with HTTP 404
 ```
 
-## HTTPS
-
-The server runs HTTP and HTTPS concurrently via Javalin `SslPlugin`:
-
-- HTTP port: `server.http-port` (default `80`)
-- HTTPS port: `server.https-port` (default `443`)
-- Dev certificates: `src/main/resources/ssl/localhost.crt` and `.key`
-- Generate trusted local certs (Windows, requires OpenSSL + Admin):
-
-```
-src\main\resources\ssl\create-dev-certificate.bat
-```
-
 ## Testing Patterns
 
 - Tests use **REST Assured** for HTTP integration testing.
 - **Awaitility** waits for the test server to accept connections.
 - `HttpTestExtension` starts the app once per JVM in a daemon thread.
 - Test profile is set automatically by Surefire: `smallrye.config.profile=test`.
-- Test HTTP port is **8888** (`microprofile-config-test.properties`; HTTPS disabled with port `0`).
+- Test HTTP port is **8888** (`microprofile-config-test.properties`).
 - Test Guice module is `TestModule` (currently empty; add test overrides there).
 
 **Example test:**
@@ -280,16 +266,13 @@ mvn package                       # produces target/minimal-api-1.0.0.jar
 mvn verify                        # package + JaCoCo report
 ```
 
-Windows shortcuts: `run.bat`, `build.bat`.
-
-CI (GitHub Actions) runs `mvn -B package` on JDK 25 for pushes/PRs to `main`.
 
 ## Key Files to Reference
 
 | File | Purpose |
 |------|---------|
 | `src/main/java/com/odan/Main.java` | Application entry point |
-| `src/main/java/com/odan/config/AppModule.java` | Guice bindings, Javalin/SSL/Handlebars setup |
+| `src/main/java/com/odan/config/AppModule.java` | Guice bindings, Javalin/Handlebars setup |
 | `src/main/java/com/odan/config/AppRoutes.java` | All route definitions |
 | `src/main/java/com/odan/config/AppConfig.java` | Typed configuration mapping |
 | `src/main/java/com/odan/util/HandlebarsRenderer.java` | Template rendering with layout helpers |

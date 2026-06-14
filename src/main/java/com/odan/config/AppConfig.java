@@ -12,23 +12,15 @@ public interface AppConfig
     @WithDefault("dev")
     String profile();
 
-    App app();
+    @WithName("app.name")
+    @WithDefault("Minimal API")
+    String appName();
 
-    Server server();
+    @WithName("app.version")
+    @WithDefault("1.0.0")
+    String appVersion();
 
-    interface App
-    {
-
-        String name();
-
-        String version();
-    }
-
-    interface Server
-    {
-
-        @WithDefault("8080")
-        int httpPort();
-    }
-
+    @WithName("server.http-port")
+    @WithDefault("8080")
+    int serverHttpPort();
 }
