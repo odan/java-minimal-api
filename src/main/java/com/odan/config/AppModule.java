@@ -6,15 +6,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.odan.exception.ApiException;
-import com.odan.exception.ErrorResponse;
-import com.odan.health.handler.HealthHandler;
-import com.odan.home.handler.HomeHandler;
-import com.odan.settings.handler.SettingsHandler;
-import com.odan.user.handler.GetUsersHandler;
-import com.odan.user.mapper.UserMapper;
-import com.odan.user.repository.UserRepository;
-import com.odan.user.service.UserService;
 import com.odan.util.HandlebarsRenderer;
 import io.javalin.Javalin;
 import io.javalin.rendering.FileRenderer;
@@ -29,15 +20,6 @@ public class AppModule extends AbstractModule
     protected void configure()
     {
         bind(FileRenderer.class).to(HandlebarsRenderer.class).in(Singleton.class);
-
-        bind(HomeHandler.class).in(Singleton.class);
-        bind(SettingsHandler.class).in(Singleton.class);
-        bind(HealthHandler.class).in(Singleton.class);
-        bind(GetUsersHandler.class).in(Singleton.class);
-
-        bind(UserService.class).in(Singleton.class);
-        bind(UserMapper.class).in(Singleton.class);
-        bind(UserRepository.class).in(Singleton.class);
     }
 
     @Provides
@@ -62,23 +44,12 @@ public class AppModule extends AbstractModule
 
     @Provides
     @Singleton
-    public Javalin provideJavalin(Injector injector, FileRenderer fileRenderer)
+    public Javalin provideJavalin(Injector injector, FileRenderer fileRenderer, AppRoutes routes)
     {
         var javalin = Javalin.create(config -> {
             config.fileRenderer(fileRenderer);
             config.staticFiles.add("/public");
-
-            AppRoutes.register(config, injector);
-
-            config.routes.exception(ApiException.class, (e, ctx) -> {
-                ctx.status(e.getStatusCode());
-                ctx.json(new ErrorResponse(e.getMessage()));
-            });
-
-            config.routes.error(404, ctx -> {
-                ctx.result("Not found");
-            });
-
+            routes.register(config);
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
