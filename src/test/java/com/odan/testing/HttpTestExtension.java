@@ -27,8 +27,7 @@ public final class HttpTestExtension implements BeforeAllCallback
 
         var injector = Guice.createInjector(Modules.override(new AppModule()).with(new TestModule()));
 
-        // var config = injector.getInstance(AppConfig.class);
-        var app = injector.getInstance(Main.class); // assuming this returns the Javalin instance or wraps it
+        var app = injector.getInstance(Main.class);
         var javalin = injector.getInstance(Javalin.class);
 
         var appThread = new Thread(() -> app.start(injector));
