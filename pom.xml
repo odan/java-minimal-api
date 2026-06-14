@@ -80,12 +80,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.javalin.community.ssl</groupId>
-            <artifactId>javalin-ssl</artifactId>
-            <version>${javalin.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
@@ -141,7 +135,7 @@
         </resources>
 
         <plugins>
-            <!-- Resources plugin (explicit for filtering) -->
+            <!-- Resources plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -149,11 +143,7 @@
                 <configuration>
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>crt</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>csr</nonFilteredFileExtension>
                         <nonFilteredFileExtension>key</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>pem</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>srl</nonFilteredFileExtension>
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>

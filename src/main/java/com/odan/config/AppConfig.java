@@ -27,11 +27,8 @@ public interface AppConfig
     interface Server
     {
 
-        @WithDefault("80")
+        @WithDefault("8080")
         int httpPort();
-
-        @WithDefault("443")
-        int httpsPort();
     }
 
 }

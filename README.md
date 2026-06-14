@@ -3,9 +3,9 @@
 A lightweight Java API using:
 
 - Java 21
-- Javalin (with HTTPS)
+- Javalin
 - Google Guice (Dependency Injection)
-- Typesafe Config 
+- SmallRye Config (Typesafe Configuration)
 - Maven (Build)
 
 ## Requirements
@@ -28,29 +28,49 @@ mvn --version
 src/main/java/com/odan
 ├── Main.java
 ├── config/
+│   ├── AppConfig.java
 │   ├── AppModule.java
-│   └── Configuration.java
+│   └── AppRoutes.java
 ├── exception/
-│   └── ApiException.java
+│   ├── ApiException.java
+│   └── ErrorResponse.java
 ├── health/
 │   └── handler/
 │       └── HealthHandler.java
-├── routing/
-│   └── RouteRegistry.java
+├── home/
+│   └── handler/
+│       └── HomeHandler.java
+├── settings/
+│   └── handler/
+│       └── SettingsHandler.java
 └── user/
     ├── domain/
-    │   └── User.java
+    │   └── UserEntity.java
+    ├── dto/
+    │   └── UserResponse.java
     ├── handler/
     │   └── GetUsersHandler.java
+    ├── mapper/
+    │   └── UserMapper.java
     ├── repository/
     │   └── UserRepository.java
     └── service/
         └── UserService.java
 
 src/main/resources/
-└── application.conf
-
-.env                              # Environment overrides (local, gitignored)
+├── META-INF/
+│   ├── microprofile-config.properties
+│   ├── microprofile-config-dev.properties
+│   ├── microprofile-config-prod.properties
+│   └── microprofile-config-test.properties
+├── public/                 # Static assets
+├── templates/
+│   ├── layouts/
+│   │   └── main.hbs
+│   └── pages/
+│       ├── dashboard.hbs
+│       └── settings.hbs
+└── logback.xml
 ```
 
 ## Architecture
@@ -58,7 +78,7 @@ src/main/resources/
 Dependency flow:
 
 ```text
-RouteRegistry
+AppRoutes
   -> Handler
       -> Service
           -> Repository
@@ -76,7 +96,7 @@ Example:
 Routes are registered centrally in:
 
 ```java
-com.odan.routing.RouteRegistry
+com.odan.config.AppRoutes
 ```
 
 Example:
@@ -85,7 +105,7 @@ Example:
 app.get("/users", injector.getInstance(GetUsersHandler.class));
 ```
 
-Handlers are lazily resolved through Guice when a route is hit.
+Handlers are resolved through Guice when a route is registered.
 
 ## Compile
 
@@ -149,7 +169,7 @@ If jar is executable:
 java -jar target/minimal-api-1.0.0.jar
 ```
 
-If using dependencies outside fat-jar packaging:
+Or use exec:java with profile:
 
 ```bash
 mvn exec:java -Dsmallrye.config.profile=prod
@@ -194,8 +214,6 @@ Fix then verify:
 ```bash
 mvn spotless:apply && mvn spotless:check
 ```
-
-To auto-format on save, install the [Spotless Gradle](https://marketplace.visualstudio.com/items?itemName=richardwillis.vscode-spotless-gradle) extension and trigger via `mvn spotless:apply`.
 
 ## Dependency Injection
 
@@ -256,6 +274,20 @@ The active configuration profile is set via `smallrye.config.profile`:
 
 The default profile is `dev` (defined in `AppConfig.java`).
 
+## SSL / HTTPS
+
+This application runs on HTTP only. For production deployments, SSL/TLS termination should be handled by a reverse proxy. This approach provides several benefits:
+
+- **No application restart required** when certificates are renewed
+- **Centralized certificate management** across multiple applications
+- **Automatic certificate renewal** with Let's Encrypt and Certbot
+- **Better performance** through connection pooling and HTTP/2 support at the proxy level
+
+Recommended Setup: HAProxy with Let's Encrypt and Certbot
+
+Certbot runs twice daily via systemd timer. When a certificate is renewed, the hook automatically:
+- Combines the new certificate and key
+- Reloads HAProxy to apply the new certificate
 
 ## Useful Maven Commands
 
@@ -300,24 +332,6 @@ Dependency tree:
 ```
 mvn dependency:tree
 ```
-
-## HTTPS certificate
-
-Create a trusted SSL certificate for local development by running the helper script as Administrator:
-
-```bat
-src\main\resources\ssl\create-dev-certificate.bat
-```
-
-The script requires OpenSSL in your `PATH`. It creates a local root CA, installs it into the Windows Trusted Root Certification Authorities store, and generates a localhost certificate for `localhost`, `127.0.0.1`, and `::1`.
-
-Generated files are written to:
-
-```text
-src/main/resources/ssl/
-```
-
-The application uses the generated development certificate files from this directory.
 
 ## Future Extensions
 

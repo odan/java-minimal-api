@@ -17,7 +17,6 @@ import com.odan.user.repository.UserRepository;
 import com.odan.user.service.UserService;
 import com.odan.util.HandlebarsRenderer;
 import io.javalin.Javalin;
-import io.javalin.community.ssl.SslPlugin;
 import io.javalin.rendering.FileRenderer;
 import io.smallrye.config.SmallRyeConfig;
 import io.smallrye.config.SmallRyeConfigBuilder;
@@ -62,12 +61,11 @@ public class AppModule extends AbstractModule
 
     @Provides
     @Singleton
-    public Javalin provideJavalin(Injector injector, SslPlugin sslPlugin, FileRenderer fileRenderer)
+    public Javalin provideJavalin(Injector injector, FileRenderer fileRenderer)
     {
         return Javalin.create(config -> {
             config.fileRenderer(fileRenderer);
             config.staticFiles.add("/public");
-            config.registerPlugin(sslPlugin);
 
             AppRoutes.register(config, injector);
 
@@ -76,26 +74,10 @@ public class AppModule extends AbstractModule
                 ctx.json(new ErrorResponse(e.getMessage()));
             });
 
-            /*
-             * config.routes.exception(FileNotFoundException.class, (e, ctx) -> { ctx.status(404); });
-             */
-
             config.routes.error(404, ctx -> {
-                ctx.result("Not found 404 message");
+                ctx.result("Not found");
             });
 
-        });
-    }
-
-    @Provides
-    @Singleton
-    public SslPlugin provideSslPlugin(AppConfig appConfig)
-    {
-        return new SslPlugin(config -> {
-            config.insecurePort = appConfig.server().httpPort();
-            config.securePort = appConfig.server().httpsPort();
-
-            config.pemFromPath("src/main/resources/ssl/localhost.crt", "src/main/resources/ssl/localhost.key");
         });
     }
 

@@ -28,7 +28,6 @@ public class Main
         logger.info("Environment: {}", configuration.profile());
         logger.info("Version: {}", configuration.app().version());
         logger.info("HTTP Port: {}", configuration.server().httpPort());
-        logger.info("HTTPS Port: {}", configuration.server().httpsPort());
 
         injector.getInstance(Javalin.class).start();
     }
