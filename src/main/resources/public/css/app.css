@@ -1,0 +1,29 @@
+:root {
+    --tblr-spacer-4: 0.5rem;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+.auth-page {
+    align-items: center;
+    background: var(--tblr-bg-surface-secondary);
+    display: flex;
+    min-height: 100vh;
+}
+
+@media (min-width: 992px) {
+    /* Fix white space on left side when scrolls are used */
+    /* https://github.com/tabler/tabler/issues/2271 */
+    :root,
+    :host {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Tabler defaults to overflow-y: scroll (always shows a track). */
+    .navbar-vertical.navbar-expand-lg {
+        overflow-y: auto;
+    }
+}
