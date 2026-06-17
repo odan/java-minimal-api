@@ -86,7 +86,7 @@ Simple page handlers may omit constructor injection when they have no dependenci
 
 ### Route Registration
 
-Routes are registered in `AppRoutes.register()`, which is called from `AppModule.provideJavalin()`. Handlers are resolved via `injector.getInstance()`; lambda wrappers are not used.
+Routes are registered in `AppRoutes.register()`, which is called from `AppModule.provideJavalin()`. A private `of()` helper resolves handlers via `injector.getInstance(clazz)` inside a lambda — this creates a new handler instance per request (handlers are not singletons by default).
 
 Current routes:
 
@@ -106,7 +106,7 @@ When adding a route:
 ### Dependency Injection (Guice)
 
 - All bindings are defined in `AppModule.java`.
-- Handlers, services, repositories, and mappers are bound as singletons.
+- Handlers, services, repositories, and mappers use Guice just-in-time bindings (no explicit `bind()` calls). They are not annotated `@Singleton` — each `injector.getInstance()` call produces a new instance.
 - Constructor injection with `@Inject` is preferred.
 - `Javalin`, `Handlebars`, and `AppConfig` are provided via `@Provides` methods.
 - The injector is created in `Main.main()`; `Main.start(Injector)` starts the server.
@@ -141,6 +141,7 @@ src/main/java/com/odan/
 src/main/resources/
 ├── META-INF/
 │   ├── microprofile-config.properties
+│   ├── microprofile-config-dev.properties
 │   ├── microprofile-config-prod.properties
 │   └── microprofile-config-test.properties
 ├── logback.xml
